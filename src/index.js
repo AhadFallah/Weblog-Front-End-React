@@ -8,14 +8,21 @@ import Navbar from "./components/home/navbar";
 import Title from "./components/home/title";
 import DarkMode from "./components/home/darkMode";
 import Popular from "./components/home/popular";
+import Newest from "./components/home/newest";
+import Pagination from "./components/home/pagination";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
 	<React.StrictMode>
-	<div className="bg-white dark:bg-1a-black h-screen w-screen text-1a-black dark:text-white">
+	<div className="bg-white dark:bg-1a-black h-full w-screen text-1a-black dark:text-white">
 		<Navbar/>
 		<Popular/>
+		<Newest/>
+		<div className="w-full text-center mt-5">
+		<Pagination/>
+		<p className="text-sm mt-5">&#169; 2024 github instagram</p>
+</div>
 </div>
 	</React.StrictMode>,
 );
