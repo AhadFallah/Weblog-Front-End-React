@@ -17,7 +17,7 @@ function Popular(props) {
         dir="rtl"
       >
         <div className="flex flex-wrap w-full h-full  xl:col-span-2 sm:col-span-2">
-          <div className="xl:flex">
+          <div className="xl:flex w-full">
             <div className="rounded-xl overflow-hidden w-full text-center  h-56 ">
               <img
                 className="w-full h-full object-cover"
@@ -51,7 +51,7 @@ function Popular(props) {
               </div>
             </div>
           </div>
-          <div className="mt-5 xl:flex">
+          <div className="mt-5 xl:flex w-full">
             <div className="rounded-xl overflow-hidden w-full text-center  h-56 ">
               <img
                 className="w-full h-full object-cover"

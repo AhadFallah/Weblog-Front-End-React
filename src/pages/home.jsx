@@ -27,10 +27,9 @@ function Home() {
   if (loading == true) {
     return <div>loading...</div>;
   } else {
-    console.log(all);
     return (
       <div className="bg-white dark:bg-1a-black h-full w-full text-1a-black dark:text-white">
-        <Navbar />
+        <Navbar activeHome={true} />
         {popular.length >= 4 ? <Popular articles={popular} /> : null}
         {newest.length >= 6 ? <Newest articles={newest} /> : null}
         <div className="w-full text-center mt-5">
@@ -67,7 +66,7 @@ function Home() {
               .slice(1, -1)
               .filter(
                 (link) =>
-                  Math.abs(Number(all.current_page) - Number(link.label)) <= 3
+                  Math.abs(Number(all.current_page) - Number(link.label)) <=3
               ) // Only keep links within 3 pages of the current page
               .slice(0, 5)
               .map((link) => {
