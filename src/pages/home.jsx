@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/home/navbar";
 import Newest from "../components/home/newest";
-import Pagination from "../components/home/pagination";
 import Popular from "../components/home/popular";
 import axiosClient from "../config/axiosClient";
+import { useRecoilState } from "recoil";
+import NavbarAtom from "../atoms/navbar";
 
 function Home() {
   const [popular, setPopular] = useState();
@@ -11,6 +12,15 @@ function Home() {
   const [page, setPage] = useState("articles");
   const [all, setAll] = useState();
   const [loading, setLoading] = useState(true);
+  const [navbarAtom, setNavbarAtom] = useRecoilState(NavbarAtom);
+  const defaultValue = {
+    homeActive: true,
+    categoryActive: false,
+    tagActive: false,
+    contactUsActive: false,
+    Login: false,
+    title: "روزمره بلاگ",
+  };
   useEffect(() => {
     axiosClient
       .get(page)
@@ -24,12 +34,14 @@ function Home() {
         console.log(err);
       });
   }, [page]);
+  useEffect(() => {
+    setNavbarAtom(defaultValue);
+  }, []);
   if (loading == true) {
     return <div>loading...</div>;
   } else {
     return (
       <div className="bg-white dark:bg-1a-black h-full w-full text-1a-black dark:text-white">
-        <Navbar activeHome={true} />
         {popular.length >= 4 ? <Popular articles={popular} /> : null}
         {newest.length >= 6 ? <Newest articles={newest} /> : null}
         <div className="w-full text-center mt-5">
@@ -66,7 +78,7 @@ function Home() {
               .slice(1, -1)
               .filter(
                 (link) =>
-                  Math.abs(Number(all.current_page) - Number(link.label)) <=3
+                  Math.abs(Number(all.current_page) - Number(link.label)) <= 3
               ) // Only keep links within 3 pages of the current page
               .slice(0, 5)
               .map((link) => {
@@ -80,7 +92,7 @@ function Home() {
                     }}
                     className={`relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white dark:bg-1a-black ${
                       all.current_page == link.label
-                        ? "bg-slate-200 dark:bg-slate-700"
+                        ? "bg-slate-300 dark:bg-slate-700"
                         : ""
                     } text-sm font-medium text-gray-700 dark:text-white hover:dark:bg-slate-700 hover:bg-gray-100`}
                   >
@@ -91,12 +103,11 @@ function Home() {
 
             <a
               href="#"
-                onClick={(e) => {
+              onClick={(e) => {
                 e.preventDefault();
                 setPage(all.next_page_url);
               }}
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white dark:bg-1a-black text-sm font-medium text-gray-700 dark:text-white hover:dark:bg-slate-700 hover:bg-gray-50"
-
             >
               <span class="sr-only">Next</span>
               <svg

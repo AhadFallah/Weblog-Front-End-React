@@ -4,24 +4,39 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "./input.css";
 import Navbar from "./components/home/navbar";
-import Popular from "./components/home/popular";
-import Newest from "./components/home/newest";
-import Pagination from "./components/home/pagination";
 import { Router, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/home";
+import Category from "./pages/category";
+import { RecoilRoot } from "recoil";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const route=createBrowserRouter([
- {
-  path:"/",
-  element:<Home/>
- } 
+const route = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navbar />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/category",
+        element: <Category />,
+      },
+    ],
+  },
 ]);
 
 root.render(
+
+    <div className="bg-white dark:bg-1a-black text-1a-black dark:text-white">
   <React.StrictMode>
-    <RouterProvider router={route}/>
+      <RecoilRoot>
+        <RouterProvider router={route} />
+      </RecoilRoot>
   </React.StrictMode>
+
+    </div>
 );
 
 // If you want to start measuring performance in your app, pass a function
