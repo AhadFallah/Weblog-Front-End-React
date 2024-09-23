@@ -8,6 +8,7 @@ import { Router, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/home";
 import Category from "./pages/category";
 import { RecoilRoot } from "recoil";
+import Search from "./pages/search";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const route = createBrowserRouter([
@@ -22,6 +23,9 @@ const route = createBrowserRouter([
       {
         path: "/category",
         element: <Category />,
+      },{
+        path: "/search",
+        element: <Search />,
       },
     ],
   },

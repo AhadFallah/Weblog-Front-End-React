@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/home/navbar";
 import Newest from "../components/home/newest";
 import axiosClient from "../config/axiosClient";
 import { useLocation } from "react-router-dom";
 import NavbarAtom from "../atoms/navbar";
 import { useRecoilState } from "recoil";
 
-function Category() {
-  const [newest, setNewest] = useState([]);
+function Search() {
+  const [newest, setNewest] = useState();
   const [page, setPage] = useState("articles");
   const [all, setAll] = useState();
   const [loading, setLoading] = useState(true);
   const data = useLocation();
+  const [search, setSearch] = useState(data.state);
   const defaultValue = {
-    homeActive: false,
-    categoryActive: true,
-    tagActive: false,
-    contactUsActive: false,
-    Login: false,
-    title: data.state.name,
+    search: true,
+    title: "",
   };
   const [navbarAtom, setNavbarAtom] = useRecoilState(NavbarAtom);
   useEffect(() => {
     axiosClient
       .get(page, {
         params: {
-          category_id: data.state.id,
+          search: search,
         },
       })
       .then((data) => {
@@ -36,21 +32,35 @@ function Category() {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, data]);
+  }, [page, search]);
   useEffect(() => {
-    if (loading == false && newest.length == 0) {
-      setNavbarAtom({ title: "پیدا نشد!" });
-    } else {
-      setNavbarAtom(defaultValue);
-    }
-  }, [data, newest]);
+    setNavbarAtom(defaultValue);
+  }, [data]);
   return (
     <div className="bg-white dark:bg-1a-black h-full w-full text-1a-black dark:text-white">
       {loading ? (
         <div>loading...</div>
       ) : (
         <React.Fragment>
-          {newest.length !== 0 ? <Newest articles={newest} /> : null}
+            <div className="w-full grid justify-center mb-5" dir="rtl">
+                <h1 className="text-2xl font-black text-center   ">جست و جوی مقاله مورد نظر...</h1>
+                <h2 className="text-lg font-black text-center ">با وارد کردن کلمات کلیدی مقاله مورد نظر خود را پیدا کنید.</h2>
+            </div>
+          <div className=" flex w-full  justify-center ">
+            <div className="w-2/4">
+              <input
+                type="text"
+                dir="rtl"
+                onChange={(e) => setSearch(e.target.value)}
+       
+                value={search}
+                placeholder="جست و جو..."
+                class="rounded-xl w-full h-20 max-w-full dark:bg-1a-black  py-2 pr-5 outline-none border-2 border-gray-100 dark:border-slate-700 shadow-md hover:outline-none focus:ring-1a-black dark:focus:ring-white focus:border-1a-black dark:focus:border-white"
+              />
+            </div>
+            <div></div>
+          </div>
+          {newest.length >= 6 ? <Newest articles={newest} /> : null}
           <div className="w-full text-center mt-5">
             {" "}
             <nav
@@ -141,4 +151,4 @@ function Category() {
   );
 }
 
-export default Category;
+export default Search;
